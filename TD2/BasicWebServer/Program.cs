@@ -4,6 +4,8 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Web;
+using System.Reflection;
+using BasicWebServer;
 
 namespace BasicServerHTTPlistener
 {
@@ -29,6 +31,7 @@ namespace BasicServerHTTPlistener
                 foreach (string s in args)
                 {
                     listener.Prefixes.Add(s);
+                    Console.WriteLine("Listening for connections on " + s);
                     // don't forget to authorize access to the TCP/IP addresses localhost:xxxx and localhost:yyyy 
                     // with netsh http add urlacl url=http://localhost:xxxx/ user="Tout le monde"
                     // and netsh http add urlacl url=http://localhost:yyyy/ user="Tout le monde"
@@ -39,14 +42,9 @@ namespace BasicServerHTTPlistener
             else
             {
                 Console.WriteLine("Syntax error: the call must contain at least one web server url as argument");
+                // return;
             }
             listener.Start();
-
-            // get args 
-            foreach (string s in args)
-            {
-                Console.WriteLine("Listening for connections on " + s);
-            }
 
             // Trap Ctrl-C on console to exit 
             Console.CancelKeyPress += delegate {
@@ -55,7 +53,6 @@ namespace BasicServerHTTPlistener
                 listener.Close();
                 Environment.Exit(0);
             };
-
 
             while (true)
             {
@@ -99,18 +96,36 @@ namespace BasicServerHTTPlistener
                 //parse params in url
                 Console.WriteLine("param1 = " + HttpUtility.ParseQueryString(request.Url.Query).Get("param1"));
                 Console.WriteLine("param2 = " + HttpUtility.ParseQueryString(request.Url.Query).Get("param2"));
-                Console.WriteLine("param3 = " + HttpUtility.ParseQueryString(request.Url.Query).Get("param3"));
-                Console.WriteLine("param4 = " + HttpUtility.ParseQueryString(request.Url.Query).Get("param4"));
 
-                //
-                Console.WriteLine(documentContents);
+                string[] valeurs = new string[] {HttpUtility.ParseQueryString(request.Url.Query).Get("param1")};
+                //, HttpUtility.ParseQueryString(request.Url.Query).Get("param2")
 
+                Console.WriteLine("documentContents : " + documentContents);
+
+                Type type = typeof(Mymethods);
+                string result = "";
+
+                string myMethode = HttpUtility.ParseQueryString(request.Url.Query).Get("mymethod");
+                if(myMethode != null)
+                {
+                    MethodInfo method = type.GetMethod(myMethode);
+                    Mymethods c = new Mymethods();
+                    result = (string)method.Invoke(c, valeurs);
+                    Console.WriteLine(result);
+                    //Console.ReadLine();
+                }
+                else
+                {
+                    result = "<HTML><BODY> Veuillez choisir une méthode ! </BODY></HTML>";
+                    Console.WriteLine(result);
+                }
+                
                 // Obtain a response object.
                 HttpListenerResponse response = context.Response;
 
                 // Construct a response.
-                string responseString = "<HTML><BODY> Hello world!</BODY></HTML>";
-                byte[] buffer = System.Text.Encoding.UTF8.GetBytes(responseString);
+                //string responseString = "<HTML><BODY> Hello world!</BODY></HTML>";
+                byte[] buffer = System.Text.Encoding.UTF8.GetBytes(result);
                 // Get a response stream and write the response to it.
                 response.ContentLength64 = buffer.Length;
                 System.IO.Stream output = response.OutputStream;
