@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
 using System.Web;
 using System.Reflection;
 using BasicWebServer;
+using System.Collections;
 
 namespace BasicServerHTTPlistener
 {
@@ -13,42 +13,28 @@ namespace BasicServerHTTPlistener
     {
         private static void Main(string[] args)
         {
-
-            //if HttpListener is not supported by the Framework
             if (!HttpListener.IsSupported)
             {
                 Console.WriteLine("A more recent Windows version is required to use the HttpListener class.");
                 return;
             }
- 
- 
-            // Create a listener.
-            HttpListener listener = new HttpListener();
 
-            // Add the prefixes.
+            HttpListener listener = new HttpListener();
             if (args.Length != 0)
             {
                 foreach (string s in args)
                 {
                     listener.Prefixes.Add(s);
                     Console.WriteLine("Listening for connections on " + s);
-                    // don't forget to authorize access to the TCP/IP addresses localhost:xxxx and localhost:yyyy 
-                    // with netsh http add urlacl url=http://localhost:xxxx/ user="Tout le monde"
-                    // and netsh http add urlacl url=http://localhost:yyyy/ user="Tout le monde"
-                    // user="Tout le monde" is language dependent, use user=Everyone in english 
-
                 }
             }
             else
             {
                 Console.WriteLine("Syntax error: the call must contain at least one web server url as argument");
-                // return;
             }
             listener.Start();
 
-            // Trap Ctrl-C on console to exit 
             Console.CancelKeyPress += delegate {
-                // call methods to close socket and exit
                 listener.Stop();
                 listener.Close();
                 Environment.Exit(0);
@@ -56,7 +42,12 @@ namespace BasicServerHTTPlistener
 
             while (true)
             {
-                // Note: The GetContext method blocks while waiting for a request.
+                // Pour la question 1 :
+                // http://localhost:8080/jhfkjhqjksfhjksd/MyMethod1?param1=test&param2=4
+
+                // Pour la question 2 :
+                // 
+
                 HttpListenerContext context = listener.GetContext();
                 HttpListenerRequest request = context.Request;
 
@@ -68,20 +59,6 @@ namespace BasicServerHTTPlistener
                         documentContents = readStream.ReadToEnd();
                     }
                 }
-                
-                // get url 
-                Console.WriteLine($"Received request for {request.Url}");
-
-                //get url protocol
-                Console.WriteLine(request.Url.Scheme);
-                //get user in url
-                Console.WriteLine(request.Url.UserInfo);
-                //get host in url
-                Console.WriteLine(request.Url.Host);
-                //get port in url
-                Console.WriteLine(request.Url.Port);
-                //get path in url 
-                Console.WriteLine(request.Url.LocalPath);
 
                 // parse path in url 
                 foreach (string str in request.Url.Segments)
@@ -89,52 +66,51 @@ namespace BasicServerHTTPlistener
                     Console.WriteLine(str);
                 }
 
-                //get params un url. After ? and between &
-
-                Console.WriteLine(request.Url.Query);
-
-                //parse params in url
-                Console.WriteLine("param1 = " + HttpUtility.ParseQueryString(request.Url.Query).Get("param1"));
-                Console.WriteLine("param2 = " + HttpUtility.ParseQueryString(request.Url.Query).Get("param2"));
-
-                string[] valeurs = new string[] {HttpUtility.ParseQueryString(request.Url.Query).Get("param1")};
-                //, HttpUtility.ParseQueryString(request.Url.Query).Get("param2")
-
-                Console.WriteLine("documentContents : " + documentContents);
-
-                Type type = typeof(Mymethods);
+                ArrayList mesValeurs = new ArrayList() {};
+                
                 string result = "";
+                string myMethode = request.Url.Segments[request.Url.Segments.Length - 1];
+                Console.WriteLine("myMethode : " + myMethode);
 
-                string myMethode = HttpUtility.ParseQueryString(request.Url.Query).Get("mymethod");
-                if(myMethode != null)
+                if (myMethode != null && myMethode != "favicon.ico")
                 {
+                    foreach (string str in HttpUtility.ParseQueryString(request.Url.Query))
+                    {
+                        mesValeurs.Add(HttpUtility.ParseQueryString(request.Url.Query).Get(str));
+                        Console.WriteLine(HttpUtility.ParseQueryString(request.Url.Query).Get(str));
+                    }
+                    Type type = typeof(Mymethods);
                     MethodInfo method = type.GetMethod(myMethode);
                     Mymethods c = new Mymethods();
-                    result = (string)method.Invoke(c, valeurs);
+                    result = (string)method.Invoke(c, mesValeurs.ToArray());
                     Console.WriteLine(result);
-                    //Console.ReadLine();
+                }
+                else if(myMethode.Equals("favicon.ico"))
+                {
+                    result = "";
+                    Console.WriteLine(result);
                 }
                 else
                 {
                     result = "<HTML><BODY> Veuillez choisir une méthode ! </BODY></HTML>";
                     Console.WriteLine(result);
                 }
-                
-                // Obtain a response object.
-                HttpListenerResponse response = context.Response;
 
-                // Construct a response.
-                //string responseString = "<HTML><BODY> Hello world!</BODY></HTML>";
-                byte[] buffer = System.Text.Encoding.UTF8.GetBytes(result);
-                // Get a response stream and write the response to it.
-                response.ContentLength64 = buffer.Length;
-                System.IO.Stream output = response.OutputStream;
-                output.Write(buffer, 0, buffer.Length);
-                // You must close the output stream.
-                output.Close();
+                if(result != "")
+                {
+                    HttpListenerResponse response = context.Response;
+                    byte[] buffer = System.Text.Encoding.UTF8.GetBytes(result);
+                    response.ContentLength64 = buffer.Length;
+                    System.IO.Stream output = response.OutputStream;
+                    output.Write(buffer, 0, buffer.Length);
+                    output.Close();
+                }
             }
-            // Httplistener neither stop ... But Ctrl-C do that ...
-            // listener.Stop();
+        }
+
+        private int incr(int x)
+        {
+            return x+1;
         }
     }
 }
