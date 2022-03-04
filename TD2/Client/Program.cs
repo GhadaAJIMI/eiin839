@@ -1,14 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 using System.Net.Sockets;
 using System.IO;
 using System.Threading;
 
-namespace Echo
+namespace Client
 {
-    class EchoClient
+    internal class Program
     {
         static TcpClient clientSocket;
         public static void Write()
@@ -36,7 +33,7 @@ namespace Echo
 
         static void Main(string[] args)
         {
-            clientSocket = new TcpClient("localhost", 5000);
+            clientSocket = new TcpClient("localhost", 8080);
             Thread ctThreadWrite = new Thread(Write);
             Thread ctThreadRead = new Thread(Read);
             ctThreadRead.Start();

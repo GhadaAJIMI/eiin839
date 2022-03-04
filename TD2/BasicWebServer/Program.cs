@@ -43,9 +43,13 @@ namespace BasicServerHTTPlistener
             while (true)
             {
                 // Pour la question 1 :
-                // http://localhost:8080/jhfkjhqjksfhjksd/MyMethod1?param1=test&param2=4
+                // http://localhost:8080/jhfkjhqjksfhjksd/MyMethod1?param1=test&param2=1
+                // http://localhost:8080/jhfkjhqjksfhjksd/MyMethod2?param1=test2&param2=2&param3=3
 
                 // Pour la question 2 :
+                // http://localhost:8080/jhfkjhqjksfhjksd/MyMethod3?param1=test3
+
+                // Pour la question 3 :
                 // 
 
                 HttpListenerContext context = listener.GetContext();
