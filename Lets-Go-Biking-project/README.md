@@ -1,32 +1,32 @@
 # Let's go biking
-## Réalisé par AJIMI Ghada
+## RÃ©alisÃ© par AJIMI Ghada
 ### Le 29/04/2022
 
 #### Remarque :
-J'ai amélioré le projet par rapport à la soutenance:
-	- Diviser les couleur du parcour selon le moyen de transport (rouge = pied, bleu = vélo)
+J'ai amÃ©liorÃ© le projet par rapport Ã  la soutenance:
+	- Diviser les couleur du parcour selon le moyen de transport (rouge = pied, bleu = vÃ©lo)
 	- Fussionner les projets dans une seule solution
 	- Ajouter Docker
 
 #### Web proxy:
 	Contract : IRoutingService
-		getAllStations() => récupére la liste des stations depuis JCDcaux
-		getStationInfo() => récupére les informations d'une station depuis JCDcaux
+		getAllStations() => rÃ©cupÃ©re la liste des stations depuis JCDcaux
+		getStationInfo() => rÃ©cupÃ©re les informations d'une station depuis JCDcaux
 		
 	Service: RoutingProxy
-		getAllStations() => récupére la liste des stations depuis le cache
-		getStationInfo() => récupére les informations d'une station depuis le cache
+		getAllStations() => rÃ©cupÃ©re la liste des stations depuis le cache
+		getStationInfo() => rÃ©cupÃ©re les informations d'une station depuis le cache
 		
 	Cache: ProxyCache	
-		Get(string url, double time) => récuprére le cache s'il existe sinon elle le créer.
+		Get(string url, double time) => rÃ©cuprÃ©re le cache s'il existe sinon elle le crÃ©er.
 
-	Générique: JCDecauxItem
-		JCDecauxItem(string url) => récupére les datas depuis une requête 
+	GÃ©nÃ©rique: JCDecauxItem
+		JCDecauxItem(string url) => rÃ©cupÃ©re les datas depuis une requÃªte 
 		
 	Self hosting: Program
 		contient un main qui permet de lancer le projet
 		
-	app.config ne contient pas le service car ceci a été déclaré dans le main avec le endpoint et le behavior.	
+	app.config ne contient pas le service car ceci a Ã©tÃ© dÃ©clarÃ© dans le main avec le endpoint et le behavior.	
 	
 #### Routing with bikes:
 	Contract : IRouting
@@ -39,30 +39,30 @@ J'ai amélioré le projet par rapport à la soutenance:
 		- void PathOptions();
 
 	Service: Routing
-		implémente le comportement des méthodes :
+		implÃ©mente le comportement des mÃ©thodes :
 			this.client = new WebProxy.RoutingServiceClient(); => appel constructeur de webProxy
-			this.allStations = getAllStations().ToList(); => client.getAllStations(); => récupére la liste de toutes les stations depuis webProxy
-			GetPosition => openStreetMapNomatim.GetPlacesFromAddress(address).Result; => récupére l'address la plus importante depuis une chaine de caractére
-			getStation1 => getStationInfo(station.contract_name, station.number); => récupére la station la plus proche de la position de départ
-			GetPath => openRouteService.PostDirections(positions, profile).Result; => récupére les directions à suivre pour atteindre la distination
+			this.allStations = getAllStations().ToList(); => client.getAllStations(); => rÃ©cupÃ©re la liste de toutes les stations depuis webProxy
+			GetPosition => openStreetMapNomatim.GetPlacesFromAddress(address).Result; => rÃ©cupÃ©re l'address la plus importante depuis une chaine de caractÃ©re
+			getStation1 => getStationInfo(station.contract_name, station.number); => rÃ©cupÃ©re la station la plus proche de la position de dÃ©part
+			GetPath => openRouteService.PostDirections(positions, profile).Result; => rÃ©cupÃ©re les directions Ã  suivre pour atteindre la distination
 	
 	OpenRouteService
-		- async Task<string> PostDirections(string request, string data); => récupére les directions à suivre depuis des position sous forme json (data)
-		- async Task<string> PostDirections(Position[] positions, string profile); => récupére les directions à suivre selon le moyen de transport (foot-walking, cycling-regular)
+		- async Task<string> PostDirections(string request, string data); => rÃ©cupÃ©re les directions Ã  suivre depuis des position sous forme json (data)
+		- async Task<string> PostDirections(Position[] positions, string profile); => rÃ©cupÃ©re les directions Ã  suivre selon le moyen de transport (foot-walking, cycling-regular)
 		- string BuildDataForPOSTCall(Position[] positions); => transforme la liste des positions en une chaine json
 	
 	OpenStreetMap
-		- async Task<List<Place>> GetPlacesFromAddress(string address); => récupére la liste des places depuis une adresse
+		- async Task<List<Place>> GetPlacesFromAddress(string address); => rÃ©cupÃ©re la liste des places depuis une adresse
 	
 	Self hosting: Program
 		contient un main qui permet de lancer le projet
 		
-	app.config contient un service avec 3 endpoints différents:
+	app.config contient un service avec 3 endpoints diffÃ©rents:
 		- <endpoint address="/mex" binding="mexHttpBinding" contract="IMetadataExchange" /> 
         - <endpoint address="/SOAP" binding="basicHttpBinding" contract="RoutingWithBikes.IRouting" />
         - <endpoint address="/REST" behaviorConfiguration="REST-config" binding="webHttpBinding" contract="RoutingWithBikes.IRouting" />
 		
-		contient aussi deux comportements différents, un pour le Soap et un pour le REST:
+		contient aussi deux comportements diffÃ©rents, un pour le Soap et un pour le REST:
 		- 	<serviceBehaviors>
 				<behavior name="SOAP-config">
 					<serviceMetadata httpGetEnabled="True" httpsGetEnabled="True"/>
@@ -78,11 +78,11 @@ J'ai amélioré le projet par rapport à la soutenance:
 #### Heavy Client:
 	Program : 
 		- fonction main qui lance le projet
-		- void SearchRoute(IRouting client) => permet de récupérer les adresses et calculer la route à suivre
-		- void writeSteps(List<Feature> features); => boucle sur les étapes à suivre et les écrit sur le terminal
+		- void SearchRoute(IRouting client) => permet de rÃ©cupÃ©rer les adresses et calculer la route Ã  suivre
+		- void writeSteps(List<Feature> features); => boucle sur les Ã©tapes Ã  suivre et les Ã©crit sur le terminal
 		- void exit() => tue le processus
 		
-	Les fonctions SOAP utilisées:
+	Les fonctions SOAP utilisÃ©es:
 		client.GetPosition(address)
 		client.getStation1(px1, py1);
 		client.getStation2(px2, py2);
@@ -98,13 +98,13 @@ J'ai amélioré le projet par rapport à la soutenance:
 
 	Toulouse:
 		11 cours Rosalind Franklin
-		11 Rue Régence
+		11 Rue RÃ©gence
 		
-	De Nice à Paris:
+	De Nice Ã  Paris:
 		Nice
 		Paris
 
-	Les requêtes REST envoyé depuis le light client sont:
+	Les requÃªtes REST envoyÃ© depuis le light client sont:
 		API = "http://localhost:8084/Design_Time_Addresses/RoutingWithBikes/REST/"
 		API + "getstations";
 		API + "getStation1?lat=" + p1.lat + "&lng=" + p1.lng;
@@ -112,9 +112,9 @@ J'ai amélioré le projet par rapport à la soutenance:
 		API + "path";
 	
 	Steps:
-		Afficher le parcour à suivre selon le moyen de transport.
-		Rouge => à pied
-		Bleu => à vélo
+		Afficher le parcour Ã  suivre selon le moyen de transport.
+		Rouge => Ã  pied
+		Bleu => Ã  vÃ©lo
 
 
 		
