@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://tempuri.org/" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" name="Routing" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:8084/Design_Time_Addresses/RoutingWithBikes?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:8084/Design_Time_Addresses/RoutingWithBikes?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:8084/Design_Time_Addresses/RoutingWithBikes?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/RoutingWithBikes.Models.JCDcauxModels" />
+      <xsd:import schemaLocation="http://localhost:8084/Design_Time_Addresses/RoutingWithBikes?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/RoutingWithBikes.Models.OSMapItems" />
+      <xsd:import schemaLocation="http://localhost:8084/Design_Time_Addresses/RoutingWithBikes?xsd=xsd4" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IRouting_getAllStations_InputMessage">
+    <wsdl:part name="parameters" element="tns:getAllStations" />
+  </wsdl:message>
+  <wsdl:message name="IRouting_getAllStations_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getAllStationsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRouting_getStationInfo_InputMessage">
+    <wsdl:part name="parameters" element="tns:getStationInfo" />
+  </wsdl:message>
+  <wsdl:message name="IRouting_getStationInfo_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getStationInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRouting_GetPosition_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPosition" />
+  </wsdl:message>
+  <wsdl:message name="IRouting_GetPosition_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPositionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRouting_GetPath_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPath" />
+  </wsdl:message>
+  <wsdl:message name="IRouting_GetPath_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPathResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRouting_getStation1_InputMessage">
+    <wsdl:part name="parameters" element="tns:getStation1" />
+  </wsdl:message>
+  <wsdl:message name="IRouting_getStation1_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getStation1Response" />
+  </wsdl:message>
+  <wsdl:message name="IRouting_PathOptions_InputMessage">
+    <wsdl:part name="parameters" element="tns:PathOptions" />
+  </wsdl:message>
+  <wsdl:message name="IRouting_PathOptions_OutputMessage">
+    <wsdl:part name="parameters" element="tns:PathOptionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRouting_getStation2_InputMessage">
+    <wsdl:part name="parameters" element="tns:getStation2" />
+  </wsdl:message>
+  <wsdl:message name="IRouting_getStation2_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getStation2Response" />
+  </wsdl:message>
+  <wsdl:portType name="IRouting">
+    <wsdl:operation name="getAllStations">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRouting/getAllStations" message="tns:IRouting_getAllStations_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRouting/getAllStationsResponse" message="tns:IRouting_getAllStations_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getStationInfo">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRouting/getStationInfo" message="tns:IRouting_getStationInfo_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRouting/getStationInfoResponse" message="tns:IRouting_getStationInfo_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPosition">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRouting/GetPosition" message="tns:IRouting_GetPosition_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRouting/GetPositionResponse" message="tns:IRouting_GetPosition_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPath">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRouting/GetPath" message="tns:IRouting_GetPath_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRouting/GetPathResponse" message="tns:IRouting_GetPath_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getStation1">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRouting/getStation1" message="tns:IRouting_getStation1_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRouting/getStation1Response" message="tns:IRouting_getStation1_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="PathOptions">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRouting/PathOptions" message="tns:IRouting_PathOptions_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRouting/PathOptionsResponse" message="tns:IRouting_PathOptions_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getStation2">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRouting/getStation2" message="tns:IRouting_getStation2_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRouting/getStation2Response" message="tns:IRouting_getStation2_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IRouting" type="tns:IRouting">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getAllStations">
+      <soap:operation soapAction="http://tempuri.org/IRouting/getAllStations" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getStationInfo">
+      <soap:operation soapAction="http://tempuri.org/IRouting/getStationInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPosition">
+      <soap:operation soapAction="http://tempuri.org/IRouting/GetPosition" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPath">
+      <soap:operation soapAction="http://tempuri.org/IRouting/GetPath" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getStation1">
+      <soap:operation soapAction="http://tempuri.org/IRouting/getStation1" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PathOptions">
+      <soap:operation soapAction="http://tempuri.org/IRouting/PathOptions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getStation2">
+      <soap:operation soapAction="http://tempuri.org/IRouting/getStation2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Routing">
+    <wsdl:port name="BasicHttpBinding_IRouting" binding="tns:BasicHttpBinding_IRouting">
+      <soap:address location="http://localhost:8084/Design_Time_Addresses/RoutingWithBikes/SOAP" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
