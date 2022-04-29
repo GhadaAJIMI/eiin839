@@ -81,12 +81,6 @@
     <Compile Include="JCDecauxItem.cs" />
     <Compile Include="ProxyCache.cs" />
     <Compile Include="RoutingProxy.cs" />
-    <Compile Include="Service1.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Service1.Designer.cs">
-      <DependentUpon>Service1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
